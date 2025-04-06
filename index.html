@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>r/AmIJudgemental - Are We Judgmental?</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- You could add a Reddit favicon link here -->
+    <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
+</head>
+<body>
+    <header class="reddit-header">
+        <div class="logo">r/AmIJudgemental</div>
+        <!-- Add other fake header elements if desired -->
+    </header>
+
+    <main class="content-area">
+        <article class="post">
+            <div class="post-sidebar">
+                <div class="score">▲</div>
+                <div class="score-number">666</div> <!-- Placeholder for score -->
+                <div class="score">▼</div>
+            </div>
+            <div class="post-content">
+                <div class="post-title">
+                    <h1>Are We Judgmental? Comparing CMSC320 Student vs. Reddit AITA Judgments</h1>
+                    <span class="flair">OC Study</span>
+                </div>
+                <div class="post-meta">
+                    Posted by u/AndGoliath • Just Now
+                </div>
+
+                <div class="post-body">
+                    <h2><span class="section-icon">📝</span> 1. The Setup / TL;DR</h2>
+                    <p>We wanted to see if Computer Science students (specifically from CMSC320 sections) judge situations differently than the general Reddit r/AITA community. Students took a survey with modified AITA posts (rephrased as "Am I a Jerk?", sometimes with genders swapped). We compared their answers to the judgments found in the comments of the original Reddit posts.</p>
+                    <p><em>Spoiler:</em> Initial thoughts suggested similarity, but the actual data showed significant differences.</p>
+
+                    <h2><span class="section-icon">🔬</span> 2. How We Did It (Data & Methods)</h2>
+                    <p>We grabbed comments from 5 original r/AITA posts that matched the survey questions. We automatically sorted comments based on the standard AITA acronyms: "YTA" (You're The Asshole), "NTA" (Not The Asshole), "INFO" (Information Needed), "NAH" (No Assholes Here), and "ESH" (Everyone Sucks Here).</p>
+                    <p>The student survey data used different labels: "Not a jerk", "Mildly a jerk", and "Strongly a jerk". To compare apples-to-apples(ish), we converted both sets of labels into three simple categories:</p>
+                    <ul>
+                        <li><strong>YTA:</strong> You're The Asshole / Strongly a jerk</li>
+                        <li><strong>Neither:</strong> ESH / INFO / NAH / Mildly a jerk</li>
+                        <li><strong>NTA:</strong> Not The Asshole / Not a jerk</li>
+                    </ul>
+                    <p>Here's the conversion cheat sheet:</p>
+                    <table>
+                        <caption>Table 1: Label Conversion</caption>
+                        <thead>
+                            <tr>
+                                <th>Original Source</th>
+                                <th>Original Label</th>
+                                <th>New Label</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td rowspan="5">Reddit AITA</td><td>YTA</td><td>YTA</td></tr>
+                            <tr><td>ESH</td><td>Neither</td></tr>
+                            <tr><td>INFO</td><td>Neither</td></tr>
+                            <tr><td>NAH</td><td>Neither</td></tr>
+                            <tr><td>NTA</td><td>NTA</td></tr>
+                            <tr><td rowspan="3">CMSC320 Survey</td><td>Strongly a jerk</td><td>YTA</td></tr>
+                            <tr><td>Mildly a jerk</td><td>Neither</td></tr>
+                            <tr><td>Not a jerk</td><td>NTA</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h2><span class="section-icon">📊</span> 3. What We Found (Results)</h2>
+                    <p>After sorting and standardizing, we ran Chi-Squared tests. The results were clear: there was a <strong>statistically significant difference</strong> in how the CMSC320 students judged the situations compared to the Redditors on AITA for *all five* posts tested.</p>
+                    <p>Here's the raw data and the test results (low p-values mean the difference is unlikely due to chance):</p>
+
+                    </div><!-- Close post-body temporarily to insert tables outside a <p> -->
+                    <div class="post-body tables-section">
+                        <h3>Wedding Question Results</h3>
+                        <table>
+                            <!-- Table 2 Data -->
+                            <thead><tr><th>Category</th><th>NTA</th><th>Neither</th><th>YTA</th></tr></thead>
+                            <tbody>
+                                <tr><td>Reddit Wedding</td><td>108</td><td>16</td><td>92</td></tr>
+                                <tr><td>Student Wedding</td><td>279</td><td>115</td><td>58</td></tr>
+                                <tr><td colspan="4"><em>p-value = 2.92 × 10<sup>-19</sup></em></td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Cat Question Results</h3>
+                        <table>
+                            <!-- Table 3 Data -->
+                             <thead><tr><th>Category</th><th>NTA</th><th>Neither</th><th>YTA</th></tr></thead>
+                            <tbody>
+                                <tr><td>Reddit Cat</td><td>291</td><td>253</td><td>203</td></tr>
+                                <tr><td>Student Cat</td><td>193</td><td>177</td><td>88</td></tr>
+                                <tr><td colspan="4"><em>p-value = 0.00679</em></td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Child Support Question Results</h3>
+                         <table>
+                             <!-- Table 4 Data -->
+                            <thead><tr><th>Category</th><th>NTA</th><th>Neither</th><th>YTA</th></tr></thead>
+                            <tbody>
+                                <tr><td>Reddit CS</td><td>75</td><td>13</td><td>146</td></tr>
+                                <tr><td>Student CS</td><td>278</td><td>120</td><td>51</td></tr>
+                                <tr><td colspan="4"><em>p-value = 2.42 × 10<sup>-44</sup></em></td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Plane Babysit Question Results</h3>
+                        <table>
+                             <!-- Table 5 Data -->
+                            <thead><tr><th>Category</th><th>NTA</th><th>Neither</th><th>YTA</th></tr></thead>
+                            <tbody>
+                                <tr><td>Reddit Plane</td><td>453</td><td>127</td><td>575</td></tr>
+                                <tr><td>Student Planes</td><td>86</td><td>191</td><td>177</td></tr>
+                                <tr><td colspan="4"><em>p-value = 9.37 × 10<sup>-46</sup></em></td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Trust Fund Question Results</h3>
+                         <table>
+                            <!-- Table 6 Data -->
+                            <thead><tr><th>Category</th><th>NTA</th><th>Neither</th><th>YTA</th></tr></thead>
+                            <tbody>
+                                <tr><td>Reddit Trust</td><td>33</td><td>5</td><td>27</td></tr>
+                                <tr><td>Student Trusts</td><td>220</td><td>156</td><td>83</td></tr>
+                                <tr><td colspan="4"><em>p-value = 9.05 × 10<sup>-7</sup></em></td></tr>
+                            </tbody>
+                        </table>
+
+                         <h3>YTA vs. NTA Ratio</h3>
+                         <p>This chart shows the ratio of YTA votes to NTA votes for each group and question. A higher bar means more "Asshole" judgments relative to "Not the Asshole" judgments.</p>
+                         <img src="bar_chart_placeholder.png" alt="Bar chart showing YTA/NTA ratios for Reddit vs Students across 5 questions" style="max-width: 100%; height: auto;">
+                         <!-- NOTE: Replace 'bar_chart_placeholder.png' with the actual image or use a charting library -->
+                         <p>Notice how the student ratio (Red bars) is lower in 4 out of 5 cases, suggesting they lean less towards the YTA judgment compared to Redditors (Blue bars).</p>
+                    </div>
+
+                    <div class="post-body"> <!-- Reopen post-body for interactive section -->
+  <h2><span class="section-icon">🫵</span> 4. Your Turn! How Do You Judge?</h2>
+                    <p>Read the brief scenarios below (based on the posts used in the study) and give your judgment. We'll show you how you compare to the CMSC320 students and the r/AITA commenters.</p>
+
+                    <form id="judgment-form">
+                        <fieldset>
+                            <legend>Wedding Question</legend>
+                            <p class="scenario-description"><em>Scenario Summary: A same-sex couple received a homophobic decline to their wedding invitation. They want to donate the money saved by this couple's absence (food/drink costs) to an LGBTQ+ charity specifically in the declining couple's name, potentially notifying them. Is making the donation *in their name* an okay action?</em></p>
+                            <label><input type="radio" name="wedding" value="YTA"> YTA</label>
+                            <label><input type="radio" name="wedding" value="Neither"> Neither</label>
+                            <label><input type="radio" name="wedding" value="NTA"> NTA</label>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Cat Question</legend>
+                             <p class="scenario-description"><em>Scenario Summary: Someone found a lost cat for which a $500 reward was advertised on posters. When the owner arrived, they claimed the reward wasn't real and was just bait. The finder refused to return the cat until the initially promised $500 reward was paid. Was it wrong to withhold the cat until the advertised reward was paid?</em></p>
+                            <label><input type="radio" name="cat" value="YTA"> YTA</label>
+                            <label><input type="radio" name="cat" value="Neither"> Neither</label>
+                            <label><input type="radio" name="cat" value="NTA"> NTA</label>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Child Support Question</legend>
+                             <p class="scenario-description"><em>Scenario Summary: A mother receives $2000/month child support for one of her four children (who also has a trust fund). She uses part of this money for expenses benefiting all her children (e.g., eldest's tuition, shared household costs, trips). A friend calls her wrong for not using the money solely on the designated child. Is using the support this way acceptable?</em></p>
+                            <label><input type="radio" name="child_support" value="YTA"> YTA</label>
+                            <label><input type="radio" name="child_support" value="Neither"> Neither</label>
+                            <label><input type="radio" name="child_support" value="NTA"> NTA</label>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Plane Babysit Question</legend>
+                             <p class="scenario-description"><em>Scenario Summary: After expressing discomfort but still being pressured by their sister to help babysit two young children on a 10-hour flight, the person secretly upgraded their own seat to business class to avoid the duty, only revealing this at the airport. Was secretly upgrading to avoid the unwanted babysitting okay?</em></p>
+                            <label><input type="radio" name="plane" value="YTA"> YTA</label>
+                            <label><input type="radio" name="plane" value="Neither"> Neither</label>
+                            <label><input type="radio" name="plane" value="NTA"> NTA</label>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Trust Fund Question</legend>
+                             <p class="scenario-description"><em>Scenario Summary: A man from a wealthy family (trust fund, allowance) lives modestly and splits expenses 50/50 with his girlfriend, who comes from a poor background and has loans. He didn't disclose his full financial situation. After she found out (via expensive gifts he received), she called him wrong for making her pay half while being privileged. Was he wrong to hide his wealth and split costs equally?</em></p>
+                            <label><input type="radio" name="trust_fund" value="YTA"> YTA</label>
+                            <label><input type="radio" name="trust_fund" value="Neither"> Neither</label>
+                            <label><input type="radio" name="trust_fund" value="NTA"> NTA</label>
+                        </fieldset>
+
+                        <button type="button" id="submit-judgments">See How I Compare!</button>
+                    </form>
+
+                    <div id="interactive-results" class="results-display" style="display: none;">
+                        <h3>Your Comparison:</h3>
+                        <!-- Results will be dynamically inserted here by JavaScript -->
+                        <p><em>Comparison results will appear here...</em></p>
+                    </div>
+                    <h2><span class="section-icon">🤔</span> 5. So, Are "We" Judgmental? (Conclusion)</h2>
+                    <p>Okay, there are some caveats (confounders). The way data was collected was different (survey vs comments), the original posts were public while the survey was private, Prof. Morawski's paraphrasing might have changed things, and the "Mildly a jerk" option added nuance not present in AITA votes.</p>
+                    <p>BUT, even with those points, the evidence strongly suggests a real difference between how CMSC320 students and Redditors judged these scenarios. Importantly, in 4 out of 5 cases, the students were *less* likely to label someone the "asshole" (relative to NTA) compared to Redditors.</p>
+                    <p><strong>The Verdict:</strong> Based on this study, "we" (CMSC320 students) appear to be *less* judgmental than the r/AITA community, at least for these specific situations.</p>
+                    <p><strong>Future Ideas:</strong> To get better data, future surveys could match the AITA questions more closely, or maybe even analyze actual comments from students given Reddit accounts (ethically tricky!).</p>
+                </div>
+
+                <div class="post-actions">
+                    <!-- Fake action links -->
+                    <span>💬 Comments (3)</span>
+                    <span>🔗 Share</span>
+                    <span>💾 Save</span>
+                    <span>... More</span>
+                </div>
+
+                 <!-- Fake Comments Section -->
+                 <div class="comment-section">
+                    <h4>Comments</h4>
+                    <div class="comment">
+                        <p><strong>u/vonNeumann</strong> • 2 hr. ago</p>
+                        <p>Wow, great paper</p>
+                    </div>
+                     <div class="comment indent-1">
+                        <p><strong>u/Einstein</strong> <span class="op-badge">OP</span> • 1 hr. ago</p>
+                        <p>ikr</p>
+                    </div>
+                    <div class="comment">
+                        <p><strong>u/Gandalf</strong> • 1 hr. ago</p>
+                        <p>Just incredible analysis</p>
+                    </div>
+                 </div>
+            </div>
+        </article>
+    </main>
+
+    <script src="script.js"></script> <!-- Link to your JavaScript file -->
+</body>
+</html>
