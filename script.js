@@ -28,7 +28,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- Helper Function to Calculate Percentages ---
+    // --- Pre-calculate Overall Group Ratios ---
+    function calculateOverallRatio(group) { // group is 'reddit' or 'student'
+        let totalYTA = 0;
+        let totalNTA = 0;
+        for (const question in studyData) {
+            totalYTA += studyData[question][group].YTA;
+            totalNTA += studyData[question][group].NTA;
+        }
+        if (totalNTA === 0) {
+            return (totalYTA > 0) ? Infinity : 0; // Handle division by zero
+        }
+        return totalYTA / totalNTA;
+    }
+
+    const redditOverallRatio = calculateOverallRatio('reddit'); // Approx 1.086
+    const studentOverallRatio = calculateOverallRatio('student'); // Approx 0.433
+
+    // --- Helper Function to Calculate Percentages (Per Question) ---
     function getPercentages(counts) {
         const total = counts.NTA + counts.Neither + counts.YTA;
         if (total === 0) return { NTA: 0, Neither: 0, YTA: 0 };
@@ -39,11 +56,39 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    // --- Helper Function to Compare Ratios and Get Relative Judgment ---
+    function getRelativeJudgment(userRatio, groupRatio, tolerance = 0.15) {
+        if (userRatio === Infinity) {
+            // User is infinitely judgmental if they only picked YTA
+            // Group ratios are finite, so user is always 'more' judgmental
+            return "more";
+        }
+        if (groupRatio === Infinity) { // Should not happen with this data
+             return userRatio === Infinity ? "similarly" : "less";
+        }
+        // Handle the case where groupRatio is 0 (user can only be 'more' or 'similarly')
+        if (groupRatio === 0) {
+             return userRatio > 0 ? "more" : "similarly";
+        }
+
+        // Standard comparison with tolerance
+        if (userRatio > groupRatio * (1 + tolerance)) {
+            return "more";
+        } else if (userRatio < groupRatio * (1 - tolerance)) {
+            return "less";
+        } else {
+            return "similarly";
+        }
+    }
+
+
     // --- Event Listener for Button Click ---
     submitButton.addEventListener('click', () => {
-        resultsDiv.innerHTML = '<h3>Your Comparison:</h3>'; // Clear previous results
-        let resultsHtml = '';
+        resultsDiv.innerHTML = ''; // Clear previous results
+        let resultsHtml = '<h3>Your Comparison Per Question:</h3>';
         let answeredCount = 0;
+        let userTotalYTA = 0;
+        let userTotalNTA = 0;
 
         const formData = new FormData(form);
         const userAnswers = {
@@ -54,11 +99,17 @@ document.addEventListener('DOMContentLoaded', () => {
             trust_fund: formData.get('trust_fund')
         };
 
-        // Process each question
+        // 1. Process each question for detailed comparison and count totals
         for (const question in userAnswers) {
             const userAnswer = userAnswers[question];
             if (userAnswer) { // Only process if answered
                 answeredCount++;
+                if (userAnswer === 'YTA') {
+                    userTotalYTA++;
+                } else if (userAnswer === 'NTA') {
+                    userTotalNTA++;
+                }
+
                 const questionData = studyData[question];
                 const redditPercentages = getPercentages(questionData.reddit);
                 const studentPercentages = getPercentages(questionData.student);
@@ -66,17 +117,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultsHtml += `<p><strong>${capitalizeFirstLetter(question.replace('_', ' '))} Question:</strong> You chose <strong>${userAnswer}</strong>.</p><ul>`;
                 resultsHtml += `<li>Redditors judged ${userAnswer}: ${redditPercentages[userAnswer]}%</li>`;
                 resultsHtml += `<li>Students judged ${userAnswer}: ${studentPercentages[userAnswer]}%</li>`;
-                resultsHtml += `</ul>`;
+                resultsHtml += `</ul><hr>`; // Add a separator
 
             }
         }
 
+        // 2. Calculate User's Overall Ratio and Compare
+        let overallSummaryHtml = '<h3>Overall Judgment Summary:</h3>';
         if (answeredCount === 0) {
              resultsHtml = '<p>Please answer at least one question to see the comparison.</p>';
+             overallSummaryHtml = ''; // No summary if no questions answered
+        } else {
+            let userOverallRatio;
+            if (userTotalNTA === 0) {
+                userOverallRatio = (userTotalYTA > 0) ? Infinity : 0;
+            } else {
+                userOverallRatio = userTotalYTA / userTotalNTA;
+            }
+
+            const judgmentVsReddit = getRelativeJudgment(userOverallRatio, redditOverallRatio);
+            const judgmentVsStudents = getRelativeJudgment(userOverallRatio, studentOverallRatio);
+
+            overallSummaryHtml += `<p>Based on your answers (YTA/NTA ratio ≈ ${userOverallRatio === Infinity ? '∞' : userOverallRatio.toFixed(2)}):</p><ul>`;
+            overallSummaryHtml += `<li>Compared to the <strong>Reddit AITA</strong> commenters (ratio ≈ ${redditOverallRatio.toFixed(2)}), you seem <strong>${judgmentVsReddit}</strong> judgmental.</li>`;
+            overallSummaryHtml += `<li>Compared to the <strong>CMSC320 Students</strong> (ratio ≈ ${studentOverallRatio.toFixed(2)}), you seem <strong>${judgmentVsStudents}</strong> judgmental.</li>`;
+            overallSummaryHtml += `</ul>`;
+            overallSummaryHtml += `<p><em>Note: "Judgmental" here is based solely on the ratio of 'YTA' to 'NTA' votes across the questions answered.</em></p>`;
         }
 
-        resultsDiv.innerHTML += resultsHtml; // Append generated HTML
-        resultsDiv.style.display = 'block'; // Show results
+        // 3. Display results
+        resultsDiv.innerHTML = overallSummaryHtml + resultsHtml; // Show summary first
+        resultsDiv.style.display = 'block'; // Show results area
+        resultsDiv.scrollIntoView({ behavior: 'smooth' }); // Scroll down to results
     });
 
     // Helper to capitalize question names nicely
