@@ -19,7 +19,7 @@ NUM_POSTS = 20
 COMMENT_LIMIT_PER_POST = 200
 OUTPUT_JSON_FILE = "top_aita_posts.json"
 SUMMARY_MAX_CHARS = 800 # Target character limit for summary
-GEMINI_MODEL = "gemini-2.0-flash-latest"
+GEMINI_MODEL = "models/gemini-2.0-flash-exp"
 
 # --- Functions ---
 
