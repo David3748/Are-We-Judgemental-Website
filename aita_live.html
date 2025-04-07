@@ -8,6 +8,39 @@
     <link rel="stylesheet" href="style.css">
     <!-- Add specific styles if needed, or modify style.css -->
     <style>
+                .abbreviations-key {
+            background-color: #f0f8ff; /* Light alice blue */
+            border: 1px solid #cce7ff;
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin: 20px 0; /* Add space above and below */
+            font-size: 0.9em; /* Slightly smaller text */
+        }
+        .abbreviations-key h4 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 1em; /* Relative to parent */
+            font-weight: bold;
+            color: #333;
+        }
+        .abbreviations-key dl {
+            margin: 0;
+            padding: 0;
+            line-height: 1.6; /* Add some line spacing */
+        }
+        .abbreviations-key dt {
+            font-weight: bold;
+            display: inline; /* Display term inline */
+            margin-right: 5px;
+        }
+        .abbreviations-key dt::after {
+            content: ":"; /* Add colon after term */
+        }
+        .abbreviations-key dd {
+            display: inline; /* Display definition inline */
+            margin-left: 0; /* Reset default margin */
+            margin-right: 15px; /* Space before next term */
+        }
         /* ... other styles remain the same ... */
         .live-post {
             border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; background-color: #fdfdfd; border-radius: 4px;
@@ -81,10 +114,24 @@
 
     <main class="content-area">
         <h1>Judge Today's Top AITA Posts</h1>
-        <p>Read the summaries of recent top posts from r/AmItheAsshole and cast your judgment. We'll compare your opinions to the Reddit consensus!</p>
+        <p>Read summaries of the top ten AITA posts from yesterday and get your responses compared.</p>
         <p><em>Data last updated: <span id="data-last-updated">Loading...</span></em></p>
 
+        <!-- *** NEW ABBREVIATIONS SECTION START *** -->
+        <div class="abbreviations-key">
+            <h4>Judgment Abbreviations:</h4>
+            <dl>
+                <dt>YTA</dt><dd>You're The Asshole</dd>
+                <dt>NTA</dt><dd>Not The Asshole</dd>
+                <dt>ESH</dt><dd>Everyone Sucks Here</dd>
+                <dt>NAH</dt><dd>No Assholes Here</dd>
+                <dt>INFO</dt><dd>Info Needed</dd>
+            </dl>
+        </div>
+        <!-- *** NEW ABBREVIATIONS SECTION END *** -->
+
         <div id="live-posts-container">
+            <!-- Posts will be loaded here by JavaScript -->
             <p>Loading posts...</p>
         </div>
 
@@ -96,6 +143,7 @@
                 <!-- Results will be shown here -->
             </div>
         </div>
+
     </main>
 
     <script src="aita_live_script.js"></script>
