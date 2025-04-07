@@ -105,10 +105,6 @@ def summarize_with_gemini(text, max_chars=SUMMARY_MAX_CHARS, retries=2, delay=5)
             elif not summary.strip(): # Handle empty string summary
                  print("Warning: Gemini summary was an empty string. Fallback.")
                  raise ValueError("Empty summary string")
-            else:
-                # Add ellipsis if summary is genuinely shorter than original
-                if len(summary) < len(text) and not summary.endswith("..."):
-                     summary += "..."
 
             return summary # Success
 
