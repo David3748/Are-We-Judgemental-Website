@@ -3,224 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>r/AmIJudgemental - Are We Judgmental?</title>
-
-    <!-- Favicon Link -->
-    <link rel="icon" type="image/png" href="purple-reddit-favicon.png">
-
+    <title>r/AmIJudgemental - Project Home</title>
+    <!-- Reuse the main stylesheet -->
     <link rel="stylesheet" href="style.css">
+    <!-- Optional Favicon -->
+    <link rel="icon" type="image/png" href="purple-reddit-favicon.png">
+    <style>
+        /* Layout for main content + sidebar */
+        .page-layout {
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            padding: 20px 15px;
+            gap: 20px; /* Space between main content and sidebar */
+            max-width: 1200px; /* Max overall width */
+            margin: 0 auto; /* Center the layout container */
+        }
 
-    <!-- Add Chart.js library -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        .main-content-area {
+            flex: 1 1 70%; /* Allow main content to take more space */
+            max-width: 800px; /* Limit main content width like other pages */
+        }
 
+        .sidebar {
+            flex: 0 0 280px; /* Fixed width sidebar */
+            font-size: 0.9em;
+        }
+
+        .subreddit-info-box {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .subreddit-info-box h3 {
+            margin-top: 0;
+            font-size: 1em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            color: #1c1c1c;
+        }
+
+         .subreddit-info-box p {
+             margin-bottom: 10px;
+             line-height: 1.4;
+             color: #333;
+         }
+
+        .subscribe-button {
+             display: block;
+             width: 100%;
+             background-color: #0079d3;
+             color: white;
+             border: none;
+             padding: 8px 10px;
+             border-radius: 20px;
+             font-weight: bold;
+             text-align: center;
+             cursor: pointer;
+             margin-top: 15px;
+        }
+        .subscribe-button:hover {
+             background-color: #1484d7;
+        }
+
+        /* Style the 'posts' specifically for navigation */
+        .nav-post .post-title h2 {
+             font-size: 1.2em; /* Slightly smaller than main article title */
+        }
+         .nav-post .post-title a {
+             text-decoration: none;
+             color: inherit; /* Inherit color from h2 */
+         }
+         .nav-post .post-title a:hover {
+             text-decoration: underline;
+         }
+
+         /* Flair for pinned posts */
+         .flair-pinned {
+             background-color: #4CAF50; /* Green for pinned */
+             color: white;
+             padding: 2px 8px;
+             border-radius: 10px;
+             font-size: 0.8em;
+             margin-left: 8px;
+             display: inline-block;
+         }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .page-layout {
+                flex-direction: column-reverse; /* Stack sidebar above main content */
+                align-items: center; /* Center items when stacked */
+            }
+            .sidebar {
+                flex-basis: auto; /* Allow sidebar to take full width */
+                width: 100%;
+                max-width: 800px; /* Match main content width */
+            }
+             .main-content-area {
+                 width: 100%;
+             }
+        }
+
+    </style>
 </head>
 <body>
     <header class="reddit-header">
         <div class="logo">r/AmIJudgemental</div>
+        <!-- Add fake search/user icons if desired -->
     </header>
 
-    <main class="content-area">
-        <article class="post">
-            <!-- ... (post-sidebar, post-title, post-meta remain the same) ... -->
-             <div class="post-sidebar">
-                <div class="score">▲</div>
-                <div class="score-number">666</div>
-                <div class="score">▼</div>
-            </div>
-            <div class="post-content">
-                 <div class="post-title">
-                    <h1>Are We Judgmental? Comparing CMSC320 Student vs. Reddit AITA Judgments</h1>
-                    <span class="flair">OC Study</span>
+    <div class="page-layout">
+
+        <main class="main-content-area">
+
+            <!-- Navigation Link 1: Styled as a Pinned Post -->
+            <article class="post nav-post">
+                <div class="post-sidebar">
+                    <div class="score">▲</div>
+                    <div class="score-number">666</div> <!-- Pinned indicator -->
+                    <div class="score">▼</div>
                 </div>
-                <div class="post-meta">
-                    Posted by u/AndGoliath • Just Now
-                </div>
-
-                <!-- ... (Sections 1 and 2 remain the same) ... -->
-                 <div class="post-body">
-                    <h2><span class="section-icon">📝</span> 1. The Setup / TL;DR</h2>
-                    <p>We wanted to see if Computer Science students (specifically from CMSC320 sections) judge situations differently than the general Reddit r/AITA community. Students took a survey with modified AITA posts (rephrased as "Am I a Jerk?", sometimes with genders swapped). We compared their answers to the judgments found in the comments of the original Reddit posts.</p>
-                    <p><em>Spoiler:</em> Initial thoughts suggested similarity, but the actual data showed significant differences.</p>
-
-                    <h2><span class="section-icon">🔬</span> 2. How We Did It (Data & Methods)</h2>
-                    <p>We grabbed comments from 5 original r/AITA posts that matched the survey questions. We automatically sorted comments based on the standard AITA acronyms: "YTA" (You're The Asshole), "NTA" (Not The Asshole), "INFO" (Information Needed), "NAH" (No Assholes Here), and "ESH" (Everyone Sucks Here).</p>
-                    <p>The student survey data used different labels: "Not a jerk", "Mildly a jerk", and "Strongly a jerk". To compare apples-to-apples(ish), we converted both sets of labels into three simple categories:</p>
-                    <ul>
-                        <li><strong>YTA:</strong> You're The Asshole / Strongly a jerk</li>
-                        <li><strong>Neither:</strong> ESH / INFO / NAH / Mildly a jerk</li>
-                        <li><strong>NTA:</strong> Not The Asshole / Not a jerk</li>
-                    </ul>
-                    <p>Here's the conversion cheat sheet:</p>
-                    <table>
-                        <caption>Table 1: Label Conversion</caption>
-                        <thead>
-                            <tr>
-                                <th>Original Source</th>
-                                <th>Original Label</th>
-                                <th>New Label</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td rowspan="5">Reddit AITA</td><td>YTA</td><td>YTA</td></tr>
-                            <tr><td>ESH</td><td>Neither</td></tr>
-                            <tr><td>INFO</td><td>Neither</td></tr>
-                            <tr><td>NAH</td><td>Neither</td></tr>
-                            <tr><td>NTA</td><td>NTA</td></tr>
-                            <tr><td rowspan="3">CMSC320 Survey</td><td>Strongly a jerk</td><td>YTA</td></tr>
-                            <tr><td>Mildly a jerk</td><td>Neither</td></tr>
-                            <tr><td>Not a jerk</td><td>NTA</td></tr>
-                        </tbody>
-                    </table>
-
-
-                    <h2><span class="section-icon">📊</span> 3. What We Found (Results)</h2>
-                    <p>After sorting and standardizing, we ran Chi-Squared tests. The results were clear: there was a <strong>statistically significant difference</strong> in how the CMSC320 students judged the situations compared to the Redditors on AITA for <i>all five</i> posts tested.</p>
-                    <p>Here's the raw data and the test results (low p-values mean the difference is unlikely due to chance):</p>
+                <div class="post-content">
+                    <div class="post-title">
+                        <h2><a href="study.html">Original Study Analysis</a></h2>
+                        <span class="flair-pinned">Pinned</span>
                     </div>
-
-
-                    <div class="post-body tables-section">
-                        <!-- ... (Tables 2-6 remain the same) ... -->
-                         <h3>Wedding Question Results</h3>
-                        <table>
-                            <thead><tr><th>Category</th><th>NTA</th><th>Neither</th><th>YTA</th></tr></thead>
-                            <tbody>
-                                <tr><td>Reddit Wedding</td><td>108</td><td>16</td><td>92</td></tr>
-                                <tr><td>Student Wedding</td><td>279</td><td>115</td><td>58</td></tr>
-                                <tr><td colspan="4"><em>p-value = 2.92 × 10<sup>-19</sup></em></td></tr>
-                            </tbody>
-                        </table>
-                         <h3>Cat Question Results</h3>
-                        <table>
-                             <thead><tr><th>Category</th><th>NTA</th><th>Neither</th><th>YTA</th></tr></thead>
-                            <tbody>
-                                <tr><td>Reddit Cat</td><td>291</td><td>253</td><td>203</td></tr>
-                                <tr><td>Student Cat</td><td>193</td><td>177</td><td>88</td></tr>
-                                <tr><td colspan="4"><em>p-value = 0.00679</em></td></tr>
-                            </tbody>
-                        </table>
-                         <h3>Child Support Question Results</h3>
-                         <table>
-                            <thead><tr><th>Category</th><th>NTA</th><th>Neither</th><th>YTA</th></tr></thead>
-                            <tbody>
-                                <tr><td>Reddit CS</td><td>75</td><td>13</td><td>146</td></tr>
-                                <tr><td>Student CS</td><td>278</td><td>120</td><td>51</td></tr>
-                                <tr><td colspan="4"><em>p-value = 2.42 × 10<sup>-44</sup></em></td></tr>
-                            </tbody>
-                        </table>
-                         <h3>Plane Babysit Question Results</h3>
-                        <table>
-                            <thead><tr><th>Category</th><th>NTA</th><th>Neither</th><th>YTA</th></tr></thead>
-                            <tbody>
-                                <tr><td>Reddit Plane</td><td>453</td><td>127</td><td>575</td></tr>
-                                <tr><td>Student Planes</td><td>86</td><td>191</td><td>177</td></tr>
-                                <tr><td colspan="4"><em>p-value = 9.37 × 10<sup>-46</sup></em></td></tr>
-                            </tbody>
-                        </table>
-                         <h3>Trust Fund Question Results</h3>
-                         <table>
-                            <thead><tr><th>Category</th><th>NTA</th><th>Neither</th><th>YTA</th></tr></thead>
-                            <tbody>
-                                <tr><td>Reddit Trust</td><td>33</td><td>5</td><td>27</td></tr>
-                                <tr><td>Student Trusts</td><td>220</td><td>156</td><td>83</td></tr>
-                                <tr><td colspan="4"><em>p-value = 9.05 × 10<sup>-7</sup></em></td></tr>
-                            </tbody>
-                        </table>
-
-
-                         <h3>YTA vs. NTA Ratio</h3>
-                         <p>This chart shows the ratio of YTA votes to NTA votes for each group and question. A higher bar means more "Asshole" judgments relative to "Not the Asshole" judgments.</p>
-
-                         <!-- Replace the img tag with this canvas -->
-                         <div class="chart-container" style="position: relative; height:40vh; width:80vw; max-width: 600px; margin: 20px auto;">
-                            <canvas id="ratioChart"></canvas>
-                         </div>
-
-                         <p>Notice how the student ratio (Red bars) is lower in 4 out of 5 cases, suggesting they lean less towards the YTA judgment compared to Redditors (Blue bars).</p>
+                    <div class="post-meta">
+                        Posted by u/ModTeam • Just Now
                     </div>
-
-                    <div class="post-body"> <!-- Reopen post-body for interactive section -->
-                        <!-- ... (Section 4: Interactive form remains the same) ... -->
-                         <h2><span class="section-icon">🫵</span> 4. Your Turn! How Do You Judge?</h2>
-                        <p>Read the brief scenarios below (based on the posts used in the study) and give your judgment. We'll show you how you compare to the CMSC320 students and the r/AITA commenters.</p>
-                         <form id="judgment-form">
-                            <fieldset>
-                                <legend>Wedding Question</legend>
-                                <p class="scenario-description"><em>Scenario Summary: A same-sex couple received a homophobic decline to their wedding invitation. They want to donate the money saved by this couple's absence (food/drink costs) to an LGBTQ+ charity specifically in the declining couple's name, potentially notifying them. Is making the donation *in their name* an okay action?</em></p>
-                                <label><input type="radio" name="wedding" value="YTA"> YTA</label>
-                                <label><input type="radio" name="wedding" value="Neither"> Neither</label>
-                                <label><input type="radio" name="wedding" value="NTA"> NTA</label>
-                            </fieldset>
-                             <fieldset>
-                                <legend>Cat Question</legend>
-                                 <p class="scenario-description"><em>Scenario Summary: Someone found a lost cat for which a $500 reward was advertised on posters. When the owner arrived, they claimed the reward wasn't real and was just bait. The finder refused to return the cat until the initially promised $500 reward was paid. Was it wrong to withhold the cat until the advertised reward was paid?</em></p>
-                                <label><input type="radio" name="cat" value="YTA"> YTA</label>
-                                <label><input type="radio" name="cat" value="Neither"> Neither</label>
-                                <label><input type="radio" name="cat" value="NTA"> NTA</label>
-                            </fieldset>
-                             <fieldset>
-                                <legend>Child Support Question</legend>
-                                 <p class="scenario-description"><em>Scenario Summary: A mother receives $2000/month child support for one of her four children (who also has a trust fund). She uses part of this money for expenses benefiting all her children (e.g., eldest's tuition, shared household costs, trips). A friend calls her wrong for not using the money solely on the designated child. Is using the support this way acceptable?</em></p>
-                                <label><input type="radio" name="child_support" value="YTA"> YTA</label>
-                                <label><input type="radio" name="child_support" value="Neither"> Neither</label>
-                                <label><input type="radio" name="child_support" value="NTA"> NTA</label>
-                            </fieldset>
-                             <fieldset>
-                                <legend>Plane Babysit Question</legend>
-                                 <p class="scenario-description"><em>Scenario Summary: After expressing discomfort but still being pressured by their sister to help babysit two young children on a 10-hour flight, the person secretly upgraded their own seat to business class to avoid the duty, only revealing this at the airport. Was secretly upgrading to avoid the unwanted babysitting okay?</em></p>
-                                <label><input type="radio" name="plane" value="YTA"> YTA</label>
-                                <label><input type="radio" name="plane" value="Neither"> Neither</label>
-                                <label><input type="radio" name="plane" value="NTA"> NTA</label>
-                            </fieldset>
-                             <fieldset>
-                                <legend>Trust Fund Question</legend>
-                                 <p class="scenario-description"><em>Scenario Summary: A man from a wealthy family (trust fund, allowance) lives modestly and splits expenses 50/50 with his girlfriend, who comes from a poor background and has loans. He didn't disclose his full financial situation. After she found out (via expensive gifts he received), she called him wrong for making her pay half while being privileged. Was he wrong to hide his wealth and split costs equally?</em></p>
-                                <label><input type="radio" name="trust_fund" value="YTA"> YTA</label>
-                                <label><input type="radio" name="trust_fund" value="Neither"> Neither</label>
-                                <label><input type="radio" name="trust_fund" value="NTA"> NTA</label>
-                            </fieldset>
-                             <button type="button" id="submit-judgments">See How I Compare!</button>
-                        </form>
-                         <div id="interactive-results" class="results-display" style="display: none;">
-                            <p><em>Calculating your judgmentalness...</em></p>
-                        </div>
-
-
-                        <!-- ... (Section 5: Conclusion remains the same) ... -->
-                        <h2><span class="section-icon">🤔</span> 5. So, Are "We" Judgmental? (Conclusion)</h2>
-                        <p>Okay, there are some caveats (confounders). The way data was collected was different (survey vs comments), the original posts were public while the survey was private, Prof. Morawski's paraphrasing might have changed things, and the "Mildly a jerk" option added nuance not present in AITA votes.</p>
-                        <p>BUT, even with those points, the evidence strongly suggests a real difference between how CMSC320 students and Redditors judged these scenarios. Importantly, in 4 out of 5 cases, the students were *less* likely to label someone the "asshole" (relative to NTA) compared to Redditors.</p>
-                        <p><strong>The Verdict:</strong> Based on this study, "we" (CMSC320 students) appear to be *less* judgmental than the r/AITA community, at least for these specific situations.</p>
-                        <p><strong>Future Ideas:</strong> To get better data, future surveys could match the AITA questions more closely, or maybe even analyze actual comments from students given Reddit accounts (ethically tricky!).</p>
+                    <div class="post-body">
+                        <p>Explore the original research comparing CMSC320 student judgments with those from the Reddit r/AITA community. See how you compare to both groups!</p>
                     </div>
-
                     <div class="post-actions">
-                        <span>💬 Comments (3)</span>
-                        <button type="button" class="action-button" id="share-button">🔗 Share</button>
-                        <span>💾 Save</span>
-                        <span>... More</span>
+                        <span>💬 Comments </span>
+                        <span>🔗 Share </span>
                     </div>
+                </div>
+            </article>
 
-                    <!-- ... (Fake Comments Section remains the same) ... -->
-                    <div class="comment-section">
-                        <h4>Comments</h4>
-                        <div class="comment">
-                            <p><strong>u/vonNeumann</strong> • 2 hr. ago</p>
-                            <p>Wow, great paper</p>
-                        </div>
-                         <div class="comment indent-1">
-                            <p><strong>u/Einstein</strong>  • 1 hr. ago</p>
-                            <p>ikr</p>
-                        </div>
-                        <div class="comment">
-                            <p><strong>u/Gandalf</strong> • 1 hr. ago</p>
-                            <p>Just incredible analysis</p>
-                        </div>
-                     </div>
-            </div><!-- End post-content -->
-        </article><!-- End post -->
-    </main><!-- End content-area -->
+            <!-- Navigation Link 2: Styled as a Pinned Post -->
+            <article class="post nav-post">
+                <div class="post-sidebar">
+                    <div class="score">▲</div>
+                     <div class="score-number">15</div> <!-- Pinned indicator -->
+                    <div class="score">▼</div>
+                </div>
+                <div class="post-content">
+                    <div class="post-title">
+                        <h2><a href="aita_live.html">Live AITA Judging</a></h2>
+                         <span class="flair-pinned">Pinned</span>
+                    </div>
+                    <div class="post-meta">
+                        Posted by u/ModTeam • Just Now
+                    </div>
+                    <div class="post-body">
+                        <p>Judge recent top posts scraped directly from r/AmItheAsshole. Get an analysis of how your judgments align with the Reddit consensus and popular opinions.</p>
+                    </div>
+                     <div class="post-actions">
+                        <span>💬 Comments </span>
+                        <span>🔗 Share </span>
+                    </div>
+                </div>
+            </article>
 
-    <script src="script.js"></script>
+            <!-- Add more content here if desired, like regular posts -->
+
+        </main>
+
+        <aside class="sidebar">
+            <div class="subreddit-info-box">
+                <h3>About r/AmIJudgemental</h3>
+                <p>Are students more judgemental than redditors. How about You?</p>
+                <p>Members: Tree(3) | Online: 3748</p>
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" class="subscribe-button">
+                    Join
+                </a>
+            </div>
+            <!-- Add more sidebar widgets if desired -->
+             <div class="subreddit-info-box">
+                <h3>Project Links</h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 5px;"><a href="study.html">Original Study</a></li>
+                    <li style="margin-bottom: 5px;"><a href="aita_live.html">Live Judging</a></li>
+                    <!-- Add link to GitHub repo if public -->
+                    <!-- <li style="margin-bottom: 5px;"><a href="YOUR_GITHUB_REPO_LINK" target="_blank" rel="noopener noreferrer">Source Code</a></li> -->
+                </ul>
+            </div>
+        </aside>
+
+    </div><!-- End page-layout -->
+
 </body>
 </html>
