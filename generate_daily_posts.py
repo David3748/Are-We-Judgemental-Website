@@ -101,7 +101,7 @@ def summarize_with_gemini(text, max_chars=SUMMARY_MAX_CHARS, retries=2, delay=5)
                 if last_space > max_chars * 0.8: # Only truncate at space if it's reasonably close
                     summary = truncated_summary[:last_space] + "..."
                 else:
-                    summary = truncated_summary + "..."
+                    summary = truncated_summary
             elif not summary.strip(): # Handle empty string summary
                  print("Warning: Gemini summary was an empty string. Fallback.")
                  raise ValueError("Empty summary string")
