@@ -15,7 +15,7 @@ import google.generativeai as genai
 # GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY" # Use Secrets
 USER_AGENT = "AITAScraperDaily:v1.1_Gemini (by /u/Dndelephant)" # Updated UA
 SUBREDDIT_NAME = "AmItheAsshole"
-NUM_POSTS = 20
+NUM_POSTS = 10
 COMMENT_LIMIT_PER_POST = 200
 OUTPUT_JSON_FILE = "top_aita_posts.json"
 SUMMARY_MAX_CHARS = 800 # Target character limit for summary
