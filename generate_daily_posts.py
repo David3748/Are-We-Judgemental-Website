@@ -1,5 +1,5 @@
 import praw
-import pandas as pd
+import pandas as pd # Note: Pandas isn't strictly needed anymore for this version but keep if you might add other analysis later
 import re
 import os
 import json
@@ -50,7 +50,8 @@ def analyze_single_post(submission):
     try:
         # Use submission.comments directly for potentially better performance
         submission.comment_sort = 'top' # Often judgments are in top comments
-        submission.comments.replace_more(limit=None, threshold=10) # Expand top-level 'more' comments efficiently
+        # Increase threshold slightly, maybe it helps catch edge cases? limit=None is fine.
+        submission.comments.replace_more(limit=None, threshold=15)
 
         for comment in submission.comments.list():
             if processed_comments >= COMMENT_LIMIT_PER_POST:
@@ -62,9 +63,17 @@ def analyze_single_post(submission):
                     counts[category] += 1
                     counts["TotalJudged"] += 1
                 processed_comments += 1
+            elif isinstance(comment, praw.models.MoreComments):
+                # Optionally try to load more, but often limited; avoid infinite loops
+                # print(f"  Skipping MoreComments object for post {submission.id}")
+                pass
 
+
+    except praw.exceptions.APIException as e:
+         print(f"  PRAW API Exception processing comments for post {submission.id}: {e}")
+         # Allow script to continue with next post
     except Exception as e:
-        print(f"  Error processing comments for post {submission.id}: {e}")
+        print(f"  General Error processing comments for post {submission.id}: {e}")
         # Continue analysis with potentially fewer comments
 
     # Determine majority verdict (simple version)
@@ -72,16 +81,20 @@ def analyze_single_post(submission):
     highest_count = 0
     # Only consider YTA, NTA, ESH, NAH for primary verdict
     verdict_candidates = ["YTA", "NTA", "ESH", "NAH"]
-    for cat in verdict_candidates:
-        if counts[cat] > highest_count:
-            highest_count = counts[cat]
-            majority_verdict = cat
+    if counts["TotalJudged"] > 0: # Only determine verdict if judgments exist
+        for cat in verdict_candidates:
+            if counts[cat] > highest_count:
+                highest_count = counts[cat]
+                majority_verdict = cat
 
-    # Handle ties or low counts - maybe require a certain percentage?
-    if counts["TotalJudged"] < 10: # If very few judgments, call it Mixed
-         majority_verdict = "Mixed / Few Judgments"
-    elif highest_count / counts["TotalJudged"] < 0.5: # If no category has >50%
-         majority_verdict = "Mixed"
+        # Handle ties or low counts - maybe require a certain percentage?
+        if counts["TotalJudged"] < 10: # If very few judgments, call it Mixed
+             majority_verdict = "Mixed / Few Judgments"
+        # Check if highest count meets a threshold percentage (e.g., 40%)
+        elif (highest_count / counts["TotalJudged"]) < 0.40:
+             majority_verdict = "Mixed"
+    else:
+        majority_verdict = "No Judgments Found"
 
 
     print(f"  Finished {submission.id}. Judged comments: {counts['TotalJudged']}")
@@ -104,14 +117,16 @@ def get_top_posts_and_analyze(reddit):
     print(f"Fetched {len(top_submissions)} submissions. Analyzing comments...")
 
     for submission in top_submissions:
-        # Basic filtering (e.g., ignore mod posts if desired, check for selftext)
-        if submission.stickied or not submission.selftext:
-            print(f"Skipping post: {submission.id} (Stickied or No Selftext)")
+        # Basic filtering (e.g., ignore mod posts, check for selftext)
+        # Added check for removed/deleted posts
+        if submission.stickied or not submission.selftext or submission.selftext == '[removed]' or submission.selftext == '[deleted]':
+            print(f"Skipping post: {submission.id} (Stickied, No Selftext, Removed, or Deleted)")
             continue
 
-        counts, majority_verdict = analyze_single_post(submission)
+        # --- Analyze the post ---
+        counts, majority_verdict = analyze_single_post(submission) # counts contains TotalJudged
 
-        # Truncate body text for JSON/frontend
+        # --- Format data for JSON ---
         body_summary = submission.selftext
         if len(body_summary) > 800: # Limit summary length
              body_summary = body_summary[:800] + "..."
@@ -121,7 +136,8 @@ def get_top_posts_and_analyze(reddit):
             "title": submission.title,
             "url": submission.permalink, # Relative URL is useful
             "body_summary": body_summary,
-            "reddit_judgments": counts,
+            "reddit_judgments": counts, # Pass the whole counts dict
+            "total_judged": counts.get("TotalJudged", 0), # *** EXPLICITLY ADDED ***
             "reddit_verdict": majority_verdict,
             "fetched_utc": datetime.utcnow().isoformat()
         }
@@ -140,14 +156,20 @@ def main():
 
         if analyzed_data:
             # Save data to JSON file
-            with open(OUTPUT_JSON_FILE, 'w', encoding='utf-8') as f:
+            # Use the current script directory for the output file path
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            output_path = os.path.join(script_dir, OUTPUT_JSON_FILE)
+
+            with open(output_path, 'w', encoding='utf-8') as f:
                 json.dump(analyzed_data, f, indent=4, ensure_ascii=False)
-            print(f"\nSuccessfully saved analysis for {len(analyzed_data)} posts to {OUTPUT_JSON_FILE}")
+            print(f"\nSuccessfully saved analysis for {len(analyzed_data)} posts to {output_path}")
         else:
             print("\nNo data analyzed or saved.")
 
     except Exception as e:
         print(f"\nAn error occurred during the process: {e}")
+        import traceback
+        traceback.print_exc() # Print full traceback for debugging
 
     end_time = datetime.now()
     print(f"--- Script finished in {end_time - start_time} ---")

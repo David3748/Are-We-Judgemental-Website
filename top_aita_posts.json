@@ -12,8 +12,9 @@
             "INFO": 0,
             "TotalJudged": 78
         },
+        "total_judged": 78,
         "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:32.068630"
+        "fetched_utc": "2025-04-07T15:06:21.561514"
     },
     {
         "id": "1jt7ogm",
@@ -28,40 +29,9 @@
             "INFO": 3,
             "TotalJudged": 67
         },
+        "total_judged": 67,
         "reddit_verdict": "YTA",
-        "fetched_utc": "2025-04-07T14:59:33.296611"
-    },
-    {
-        "id": "1jt0s1f",
-        "title": "AITA for canceling my mom’s surprise farewell dinner because she called me messy?",
-        "url": "/r/AmItheAsshole/comments/1jt0s1f/aita_for_canceling_my_moms_surprise_farewell/",
-        "body_summary": "Hi Reddit,\nEnglish isn’t my first language, but I’ll try my best.\n\nMy mom (59F) and I (27F) have been “living together” for the past 10 months. I say “living together” because I’m only home 2–3 days a week—I usually stay at work or with my boyfriend.\n\nShe moved with me to Europe from Latin America. It was hard for her to adjust at first, but she’s active and has built a little community here. She’s retired and brought some savings to live and travel, and when she moved in, I started covering rent and bills. I’m lucky to have a good job and was okay with supporting her.\n\nWe don’t have the best relationship. I felt free for the first time when I moved out at 20. But I still wanted to be there for her.\n\nWe share my room (I have roommates), and she’s been living with me while we handled some l...",
-        "reddit_judgments": {
-            "YTA": 2,
-            "NTA": 36,
-            "ESH": 0,
-            "NAH": 0,
-            "INFO": 0,
-            "TotalJudged": 38
-        },
-        "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:33.757351"
-    },
-    {
-        "id": "1jt74ox",
-        "title": "AITA for how I explained to SIL that she wouldn't be my son's godmother?",
-        "url": "/r/AmItheAsshole/comments/1jt74ox/aita_for_how_i_explained_to_sil_that_she_wouldnt/",
-        "body_summary": "My wife and I aren’t practicing Catholics per se but we do follow certain traditions such as christening ceremonies for our children. Some people choose a married couple to be godparents; when I was a baby, my parents chose my uncle and his then-wife, and they divorced when I was still a child and I lost all contact with my former-aunt and basically grew up ‘without’ a godmother.\n\nSo my wife and I always thought it was best to choose one of our relatives, and one from each side of our family. For our second son, I chose my brother as godfather, and my wife chose a cousin of hers as godmother. When I called my brother to invite him, he assumed I was asking both him and his wife, and there was this awkward moment when I had to explain to him my SIL wouldn’t be the godmother. He seemed fine w...",
-        "reddit_judgments": {
-            "YTA": 12,
-            "NTA": 42,
-            "ESH": 6,
-            "NAH": 0,
-            "INFO": 0,
-            "TotalJudged": 60
-        },
-        "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:34.445599"
+        "fetched_utc": "2025-04-07T15:06:22.628025"
     },
     {
         "id": "1jth6le",
@@ -76,8 +46,43 @@
             "INFO": 2,
             "TotalJudged": 117
         },
-        "reddit_verdict": "Mixed",
-        "fetched_utc": "2025-04-07T14:59:36.286791"
+        "total_judged": 117,
+        "reddit_verdict": "YTA",
+        "fetched_utc": "2025-04-07T15:06:24.528956"
+    },
+    {
+        "id": "1jt74ox",
+        "title": "AITA for how I explained to SIL that she wouldn't be my son's godmother?",
+        "url": "/r/AmItheAsshole/comments/1jt74ox/aita_for_how_i_explained_to_sil_that_she_wouldnt/",
+        "body_summary": "My wife and I aren’t practicing Catholics per se but we do follow certain traditions such as christening ceremonies for our children. Some people choose a married couple to be godparents; when I was a baby, my parents chose my uncle and his then-wife, and they divorced when I was still a child and I lost all contact with my former-aunt and basically grew up ‘without’ a godmother.\n\nSo my wife and I always thought it was best to choose one of our relatives, and one from each side of our family. For our second son, I chose my brother as godfather, and my wife chose a cousin of hers as godmother. When I called my brother to invite him, he assumed I was asking both him and his wife, and there was this awkward moment when I had to explain to him my SIL wouldn’t be the godmother. He seemed fine w...",
+        "reddit_judgments": {
+            "YTA": 12,
+            "NTA": 42,
+            "ESH": 6,
+            "NAH": 0,
+            "INFO": 0,
+            "TotalJudged": 60
+        },
+        "total_judged": 60,
+        "reddit_verdict": "NTA",
+        "fetched_utc": "2025-04-07T15:06:25.179207"
+    },
+    {
+        "id": "1jt0s1f",
+        "title": "AITA for canceling my mom’s surprise farewell dinner because she called me messy?",
+        "url": "/r/AmItheAsshole/comments/1jt0s1f/aita_for_canceling_my_moms_surprise_farewell/",
+        "body_summary": "Hi Reddit,\nEnglish isn’t my first language, but I’ll try my best.\n\nMy mom (59F) and I (27F) have been “living together” for the past 10 months. I say “living together” because I’m only home 2–3 days a week—I usually stay at work or with my boyfriend.\n\nShe moved with me to Europe from Latin America. It was hard for her to adjust at first, but she’s active and has built a little community here. She’s retired and brought some savings to live and travel, and when she moved in, I started covering rent and bills. I’m lucky to have a good job and was okay with supporting her.\n\nWe don’t have the best relationship. I felt free for the first time when I moved out at 20. But I still wanted to be there for her.\n\nWe share my room (I have roommates), and she’s been living with me while we handled some l...",
+        "reddit_judgments": {
+            "YTA": 2,
+            "NTA": 36,
+            "ESH": 0,
+            "NAH": 0,
+            "INFO": 0,
+            "TotalJudged": 38
+        },
+        "total_judged": 38,
+        "reddit_verdict": "NTA",
+        "fetched_utc": "2025-04-07T15:06:25.668957"
     },
     {
         "id": "1jt9ifz",
@@ -85,31 +90,16 @@
         "url": "/r/AmItheAsshole/comments/1jt9ifz/aita_for_playing_volleyball_in_the_day_of_my/",
         "body_summary": "I’m (18F) in my school’s volleyball team and we had a match scheduled for the day of my sister’s (24F) wedding. The game was early in the morning, the wedding would be at night, so there would be no conflict.\n\nAnyway, some relatives of ours who were in town just for the wedding heard me talking about the match and chose to go. It was their own decision, I only mentioned the game but didn’t invite anybody personally. After the game, I come home. My team had won, I was excited, and some of our relatives were asking me about the team, and whether I plan to continue on playing when I’m in college etc.\n\nMy sister was already there – she chose our parents’ place as her HQ – and I could instantly tell she looked upset. When we were alone, I asked her what was the problem (I thought something was ...",
         "reddit_judgments": {
-            "YTA": 66,
+            "YTA": 67,
             "NTA": 57,
             "ESH": 7,
             "NAH": 9,
             "INFO": 0,
-            "TotalJudged": 139
+            "TotalJudged": 140
         },
-        "reddit_verdict": "Mixed",
-        "fetched_utc": "2025-04-07T14:59:38.184244"
-    },
-    {
-        "id": "1jsv2gd",
-        "title": "AITA for telling a guy sitting next to me to stop snorting at a restaurant?",
-        "url": "/r/AmItheAsshole/comments/1jsv2gd/aita_for_telling_a_guy_sitting_next_to_me_to_stop/",
-        "body_summary": "I (45 female) recently was eating dinner with a good friend and former neighbor who moved away 6 months ago.  We had been there for approximately 20-25 minutes.  We were talking and laughing and being pretty quiet for a noisy restaurant since we both do a kind of “silent laugh” - one of the things we have in common.  We were just served when the man (older guy about 65 maybe) sitting at the table next to us had finished his meal. He was waiting for his check and looking at his cell phone.  When all of the sudden, he started making sucking noises (like my grandparents used to, to clean their teeth) and then he snorted. And it wasn’t just one snort, it was multiple and deep each time.  It literally echoed off the walls.\nNow the first time, I let it go and didn’t say anything but had to fight...",
-        "reddit_judgments": {
-            "YTA": 27,
-            "NTA": 53,
-            "ESH": 14,
-            "NAH": 0,
-            "INFO": 1,
-            "TotalJudged": 95
-        },
-        "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:39.450677"
+        "total_judged": 140,
+        "reddit_verdict": "YTA",
+        "fetched_utc": "2025-04-07T15:06:27.530164"
     },
     {
         "id": "1jt47m8",
@@ -124,8 +114,9 @@
             "INFO": 0,
             "TotalJudged": 24
         },
+        "total_judged": 24,
         "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:39.906448"
+        "fetched_utc": "2025-04-07T15:06:28.126138"
     },
     {
         "id": "1jtg6xv",
@@ -140,8 +131,9 @@
             "INFO": 0,
             "TotalJudged": 26
         },
+        "total_judged": 26,
         "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:40.239580"
+        "fetched_utc": "2025-04-07T15:06:28.534985"
     },
     {
         "id": "1jt8t6i",
@@ -156,24 +148,26 @@
             "INFO": 0,
             "TotalJudged": 41
         },
+        "total_judged": 41,
         "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:40.622759"
+        "fetched_utc": "2025-04-07T15:06:29.028025"
     },
     {
-        "id": "1jt00a7",
-        "title": "AITA for not going to my grandma's 85th birthdaydinner probably 2 weeks to a month postpartum?",
-        "url": "/r/AmItheAsshole/comments/1jt00a7/aita_for_not_going_to_my_grandmas_85th/",
-        "body_summary": "So I (28 F) and my husband (33M) are expecting our first baby. With that I'm the first on my side of the family, so 1st grandkid and first great-grandchild, which is kinda special. \n\nToday my mom told me that, for my grandma's 85th birthday dinner, she wanted to look for a restaurant very close to my home (max 10 min. By car). My grandparents live over 1.5 hour away (I know its not far for most Americans, but where I live it is considered far away.) \n\nNow here is the deal. I'm expected to deliver my baby a month before the date of the birthdaydinner. But I dont know for sure when I will deliver. Especially with a first, I see a lot of people going 'till 41+ weeks. And in that case I wouldn't even be a month postpartum. \n\nI do not feel ready to go out at that time postpartum because I will ...",
+        "id": "1jtl8ua",
+        "title": "AITA for sending my niece back home after lying multiple times and smoking in my home?",
+        "url": "/r/AmItheAsshole/comments/1jtl8ua/aita_for_sending_my_niece_back_home_after_lying/",
+        "body_summary": "My husband and I were asked if our teenage niece could come live with us for a few months. We said yes and clearly stated what our rules would be. We don't allow minors to use drugs/alchohol/nicotine and no one is allowed to smoke in our home. Smoking marijuana and vapes is something we know our niece has been doing and my sister in law was aware of. \n\nFor the first few months everything went well. She was never a problem and we loved having her here, planning fun things, and taking her shopping. 3 weeks ago we noticed a sudden change, she was avoiding us and we were catching whiffs of a weed pen. We started being hyper aware of her behavior and within a few days noticed she was clearly high. We confronted her and she told us the truth and handed over the pen. Fast forward a few weeks late...",
         "reddit_judgments": {
-            "YTA": 4,
-            "NTA": 49,
+            "YTA": 1,
+            "NTA": 9,
             "ESH": 0,
-            "NAH": 5,
+            "NAH": 0,
             "INFO": 0,
-            "TotalJudged": 58
+            "TotalJudged": 10
         },
+        "total_judged": 10,
         "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:41.231872"
+        "fetched_utc": "2025-04-07T15:06:29.230084"
     },
     {
         "id": "1jtcizm",
@@ -188,8 +182,26 @@
             "INFO": 0,
             "TotalJudged": 33
         },
+        "total_judged": 33,
         "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:41.541528"
+        "fetched_utc": "2025-04-07T15:06:29.582720"
+    },
+    {
+        "id": "1jt00a7",
+        "title": "AITA for not going to my grandma's 85th birthdaydinner probably 2 weeks to a month postpartum?",
+        "url": "/r/AmItheAsshole/comments/1jt00a7/aita_for_not_going_to_my_grandmas_85th/",
+        "body_summary": "So I (28 F) and my husband (33M) are expecting our first baby. With that I'm the first on my side of the family, so 1st grandkid and first great-grandchild, which is kinda special. \n\nToday my mom told me that, for my grandma's 85th birthday dinner, she wanted to look for a restaurant very close to my home (max 10 min. By car). My grandparents live over 1.5 hour away (I know its not far for most Americans, but where I live it is considered far away.) \n\nNow here is the deal. I'm expected to deliver my baby a month before the date of the birthdaydinner. But I dont know for sure when I will deliver. Especially with a first, I see a lot of people going 'till 41+ weeks. And in that case I wouldn't even be a month postpartum. \n\nI do not feel ready to go out at that time postpartum because I will ...",
+        "reddit_judgments": {
+            "YTA": 4,
+            "NTA": 49,
+            "ESH": 0,
+            "NAH": 5,
+            "INFO": 0,
+            "TotalJudged": 58
+        },
+        "total_judged": 58,
+        "reddit_verdict": "NTA",
+        "fetched_utc": "2025-04-07T15:06:30.331490"
     },
     {
         "id": "1jte15o",
@@ -204,24 +216,9 @@
             "INFO": 4,
             "TotalJudged": 59
         },
+        "total_judged": 59,
         "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:42.663160"
-    },
-    {
-        "id": "1jt1okq",
-        "title": "AITA for lying to my family so I don’t have to help my sick grandmother?",
-        "url": "/r/AmItheAsshole/comments/1jt1okq/aita_for_lying_to_my_family_so_i_dont_have_to/",
-        "body_summary": "I (30F) was asked to help my grandma move from her old house into a 1 bedroom apartment in a senior community. She is in her 80s, not in great health, and her house is about to be condemned by the city because she didn’t take care of it over the decades. \n\nShe’s also an asshole whom I haven’t spoken to in over a decade because she abused and neglected my father so bad that he now has severe mental and physical health conditions that are directly caused from her mistreatment of him during his childhood and adolescent years. \n\nAnyway, my mom asked me to help move my grandma and I vaguely agreed that I would show up this weekend to help out. The only reason I said yes is because it was my mom that was asking. \n\nHOWEVER, I have just now flat out lied to my mom feigning a “pet emergency” so I d...",
-        "reddit_judgments": {
-            "YTA": 14,
-            "NTA": 6,
-            "ESH": 0,
-            "NAH": 0,
-            "INFO": 3,
-            "TotalJudged": 23
-        },
-        "reddit_verdict": "YTA",
-        "fetched_utc": "2025-04-07T14:59:43.026687"
+        "fetched_utc": "2025-04-07T15:06:31.341532"
     },
     {
         "id": "1jtfwsc",
@@ -236,8 +233,26 @@
             "INFO": 0,
             "TotalJudged": 25
         },
+        "total_judged": 25,
         "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:43.286181"
+        "fetched_utc": "2025-04-07T15:06:31.701799"
+    },
+    {
+        "id": "1jt1okq",
+        "title": "AITA for lying to my family so I don’t have to help my sick grandmother?",
+        "url": "/r/AmItheAsshole/comments/1jt1okq/aita_for_lying_to_my_family_so_i_dont_have_to/",
+        "body_summary": "I (30F) was asked to help my grandma move from her old house into a 1 bedroom apartment in a senior community. She is in her 80s, not in great health, and her house is about to be condemned by the city because she didn’t take care of it over the decades. \n\nShe’s also an asshole whom I haven’t spoken to in over a decade because she abused and neglected my father so bad that he now has severe mental and physical health conditions that are directly caused from her mistreatment of him during his childhood and adolescent years. \n\nAnyway, my mom asked me to help move my grandma and I vaguely agreed that I would show up this weekend to help out. The only reason I said yes is because it was my mom that was asking. \n\nHOWEVER, I have just now flat out lied to my mom feigning a “pet emergency” so I d...",
+        "reddit_judgments": {
+            "YTA": 14,
+            "NTA": 6,
+            "ESH": 0,
+            "NAH": 0,
+            "INFO": 3,
+            "TotalJudged": 23
+        },
+        "total_judged": 23,
+        "reddit_verdict": "YTA",
+        "fetched_utc": "2025-04-07T15:06:32.015865"
     },
     {
         "id": "1jsxvup",
@@ -252,8 +267,26 @@
             "INFO": 0,
             "TotalJudged": 11
         },
+        "total_judged": 11,
         "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:43.493913"
+        "fetched_utc": "2025-04-07T15:06:32.204917"
+    },
+    {
+        "id": "1jtkwl8",
+        "title": "AITA Mom wants me to give her money she gifted me back",
+        "url": "/r/AmItheAsshole/comments/1jtkwl8/aita_mom_wants_me_to_give_her_money_she_gifted_me/",
+        "body_summary": "A few weeks ago, my mom came into a large sum of money and gifted both my sister and me a portion of it. For context, we grew up with very little money, so this was a huge deal for us. She gave me $40K.\n\nI live independently and have a significant amount of debt, so I met with an accountant to figure out the best way to use the money mainly to pay off debt or put it toward buying a condo, since housing is the main priority for me. I’ve already used some of the money to pay down debt that was in collections and to begin going to school. \n\nNow, my mom is asking me to give $8K of it back because she is saying she needs to pay more expenses which doesn’t make sense to me. \n\nMy mom is extremely emotional and can be aggressive. I suspect she has undiagnosed BPD. She’s lashed out at me in the pas...",
+        "reddit_judgments": {
+            "YTA": 0,
+            "NTA": 11,
+            "ESH": 0,
+            "NAH": 0,
+            "INFO": 1,
+            "TotalJudged": 12
+        },
+        "total_judged": 12,
+        "reddit_verdict": "NTA",
+        "fetched_utc": "2025-04-07T15:06:32.525898"
     },
     {
         "id": "1jtfo72",
@@ -268,8 +301,26 @@
             "INFO": 0,
             "TotalJudged": 14
         },
+        "total_judged": 14,
         "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:43.737282"
+        "fetched_utc": "2025-04-07T15:06:32.831978"
+    },
+    {
+        "id": "1jti7gp",
+        "title": "AITA for getting mad about my MIL coming to stay with us for 4 days?",
+        "url": "/r/AmItheAsshole/comments/1jti7gp/aita_for_getting_mad_about_my_mil_coming_to_stay/",
+        "body_summary": "We (my bf and I) live in a 43 foot trailer and I work a corporate job from home. It’s basically a studio apartment. We have a mini golden-doodle and a mini schnauzer. I am a heavy smoker, and don’t advertise it to the world. (Gardener not tobacco). My boyfriend works 7 days a week, 12 hour shifts for 2-3 months at a time. Right now he’s on a job where he is working those hours. His mother is 70 y/o and Christian Baptist from the South. She lost her husband last year in August and she is one of the sweetest people I know. So she’s been lonely. She’s been talking about visiting us for some time, but we always make time to come visit her instead because our living situation. She is on the school kid’s schedule so she gets spring break off work. She’s been wanting to “get away” from home for a...",
+        "reddit_judgments": {
+            "YTA": 12,
+            "NTA": 46,
+            "ESH": 1,
+            "NAH": 1,
+            "INFO": 0,
+            "TotalJudged": 60
+        },
+        "total_judged": 60,
+        "reddit_verdict": "NTA",
+        "fetched_utc": "2025-04-07T15:06:33.996222"
     },
     {
         "id": "1jt9zcv",
@@ -284,39 +335,8 @@
             "INFO": 0,
             "TotalJudged": 12
         },
+        "total_judged": 12,
         "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:44.073146"
-    },
-    {
-        "id": "1jt4kef",
-        "title": "AITA for not wanting to give my mom money?",
-        "url": "/r/AmItheAsshole/comments/1jt4kef/aita_for_not_wanting_to_give_my_mom_money/",
-        "body_summary": "I (18F) don't want to give my mom (45) money. My father is a 2 tour iraq veteran who served the country for 13 years. With his benefits as a veteran I will recieve education benefit checks monthly of around $1500 for going to college. I will be staying at home as a commuter because I wanted to see my younger siblings grow up a little bit more before I take off and go on with my own life, plus my mom said I'd have a support system here since I'm just starting adulthood.\n\nWith me staying home and commuting to university, my mom says that those $1500 checks would be going to her as \"room and board.\" This really rubs me the wrong way.\n\nI do a lot at home. I cook, clean, bathe my 3 year old brother, watch, pick up, homework and I am overall like another parent in the household. She even says no...",
-        "reddit_judgments": {
-            "YTA": 4,
-            "NTA": 16,
-            "ESH": 0,
-            "NAH": 1,
-            "INFO": 0,
-            "TotalJudged": 21
-        },
-        "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:44.427764"
-    },
-    {
-        "id": "1jtitm9",
-        "title": "AITA for refusing to be in my Mothers Will",
-        "url": "/r/AmItheAsshole/comments/1jtitm9/aita_for_refusing_to_be_in_my_mothers_will/",
-        "body_summary": "I 26F have been estranged from my Mother for 11 years. Last month, she had a health scare and decided to get a Will. She reached out to my Dad to ask me if I wanted to be in the Will and I refused straight away. I don't want money from her death just because we happen to share some blood. However my younger Brothers think I\\`m an asshole for refusing to be in the Will. I told them, at the end of the day it's her money and it's her decision what she wants to do with it. I couldn't care either way.\n\nWhat is annoying me is the fact that she reached out to my dad to ask me, it just feels like a power move to me. And the fact my family can't see that and act like I\\`m the asshole has me second guessing  myself. So am I the asshole?",
-        "reddit_judgments": {
-            "YTA": 1,
-            "NTA": 21,
-            "ESH": 0,
-            "NAH": 2,
-            "INFO": 0,
-            "TotalJudged": 24
-        },
-        "reddit_verdict": "NTA",
-        "fetched_utc": "2025-04-07T14:59:44.788973"
+        "fetched_utc": "2025-04-07T15:06:34.370708"
     }
 ]
