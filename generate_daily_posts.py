@@ -60,52 +60,98 @@ def categorize_comment(comment_text):
     if re.search(r'\binfo\b', text_lower): return "INFO"
     return None
 
-def summarize_with_gemini(text, max_chars=SUMMARY_MAX_CHARS, initial_delay=1, max_retries=3, backoff_factor=2): # Added parameters
+def summarize_with_gemini(text, max_chars=SUMMARY_MAX_CHARS, initial_delay=1, max_retries=3, backoff_factor=2):
     """Summarizes text using Gemini Flash with exponential backoff."""
-    # ... (model setup and prompt remain the same) ...
+    if not text or len(text) <= max_chars:
+        return text
+
     model = genai.GenerativeModel(GEMINI_MODEL)
-    prompt = f"""Summarize...""" # Keep your prompt
+
+    # --- PROBLEM AREA ---
+    # You have "... Summarize ..." as a placeholder here,
+    # but the full prompt structure is needed.
+    # Let's restore the full prompt:
+    prompt = f"""Summarize the following Reddit AITA (Am I the Asshole) post. Focus on the main conflict, the actions taken by the Original Poster (OP), and the question being asked. Keep the summary concise and strictly under {max_chars} characters. Do not add any preamble like "Here is a summary:".
+
+    Post Text:
+    ---
+    {text}
+    ---
+
+    Summary (under {max_chars} characters):"""
+    # --- END PROBLEM AREA ---
+
+    # Add a log to see the exact prompt being sent (for debugging)
+    # print(f"    Sending Prompt to Gemini:\n-------\n{prompt[:200]}...\n-------") # Log start of prompt
 
     current_delay = initial_delay
+    last_exception = None
+
     for attempt in range(max_retries + 1):
         try:
-            response = model.generate_content(prompt)
-            # ... (response processing logic remains the same) ...
-            if response.parts:
-                 summary = "".join(part.text for part in response.parts if hasattr(part, 'text'))
-            # ... (rest of processing and length check) ...
+            response = model.generate_content(prompt) # Use the correctly formatted prompt
 
-            # Check for empty/blocked AFTER processing parts
-            if not summary or not summary.strip():
+            # --- Detailed Response Check ---
+            summary = None
+            finish_reason = None
+            safety_ratings = None
+
+            if response.candidates:
+                # ... (rest of candidate processing) ...
+                 candidate = response.candidates[0]
+                 if candidate.content and candidate.content.parts:
+                     summary = "".join(part.text for part in candidate.content.parts if hasattr(part, 'text'))
+                 finish_reason = candidate.finish_reason.name if hasattr(candidate.finish_reason, 'name') else str(candidate.finish_reason)
+                 safety_ratings = [str(rating) for rating in candidate.safety_ratings] if candidate.safety_ratings else []
+            elif hasattr(response, 'text'):
+                 summary = response.text # Fallback
+
+            # --- Handle Empty/Blocked/Problematic Summary ---
+            # Check if summary is None or just whitespace after joining parts
+            if summary is None or not summary.strip():
                  block_reason = response.prompt_feedback.block_reason if response.prompt_feedback else 'N/A'
-                 print(f"Warning: Gemini summary was empty or potentially blocked. Reason: {block_reason}. Fallback.")
-                 # Raise error to trigger retry/fallback for empty/blocked summaries too
-                 raise ValueError(f"Empty or blocked summary (Reason: {block_reason})")
+                 error_message = f"Gemini summary was empty or blocked. Finish Reason: {finish_reason}. Block Reason: {block_reason}. Safety: {safety_ratings}"
+                 print(f"Warning: {error_message}")
+                 raise ValueError(error_message)
 
-            # --- Success ---
-             # Add ellipsis logic
-            if len(summary) < len(text) and not summary.endswith("..."):
+            # --- Process Valid Summary ---
+            # (Length enforcement and ellipsis logic remains the same)
+            if len(summary) > max_chars:
+                # ... truncation logic ...
+                 print(f"    Warning: Gemini summary exceeded {max_chars} chars ({len(summary)}). Truncating.")
+                 truncated_summary = summary[:max_chars]
+                 last_space = truncated_summary.rfind(' ')
+                 if last_space > max_chars * 0.8:
+                     summary = truncated_summary[:last_space] + "..."
+                 else:
+                     summary = truncated_summary + "..."
+            elif len(summary) < len(text) and not summary.endswith("..."):
                  summary += "..."
-            return summary
-            # --- End Success ---
+
+
+            return summary # Success
 
         except Exception as e:
-            # Specifically check if the error is likely a rate limit error (often HTTP 429)
-            # This requires inspecting the error details, which can vary.
-            # A simpler check is just to retry on any exception for now.
-            print(f"  Error summarizing with Gemini (Attempt {attempt + 1}/{max_retries + 1}): {e}")
+            # ... (Error handling and retry logic remains the same) ...
+            last_exception = e
+            error_details = f"{e}"
+            print(f"  Error summarizing with Gemini (Attempt {attempt + 1}/{max_retries + 1}): {error_details}")
+            is_rate_limit = "429" in str(e) or "quota" in str(e).lower()
             if attempt < max_retries:
-                print(f"  Retrying in {current_delay:.2f} seconds...")
-                time.sleep(current_delay)
-                current_delay *= backoff_factor # Increase delay for next time
+                wait_time = current_delay
+                if is_rate_limit:
+                    print("    Rate limit likely hit. Increasing wait time.")
+                    wait_time = max(wait_time, 5)
+                print(f"    Retrying in {wait_time:.2f} seconds...")
+                time.sleep(wait_time)
+                current_delay *= backoff_factor
             else:
-                print(f"  Summarization failed after {max_retries + 1} attempts. Falling back to simple truncation.")
+                print(f"  Summarization failed after {max_retries + 1} attempts. Last error: {last_exception}. Falling back.")
                 return text[:max_chars] + ("..." if len(text) > max_chars else "") # Fallback
 
-    # Fallback if loop finishes without success (shouldn't happen with current logic)
+    # Fallback if loop finishes unexpectedly
     print("  Reached end of retry loop unexpectedly. Falling back.")
     return text[:max_chars] + ("..." if len(text) > max_chars else "")
-
 
 def analyze_single_post(submission):
     """Analyzes comments for a single PRAW submission object."""
