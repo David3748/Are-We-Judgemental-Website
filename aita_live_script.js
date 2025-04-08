@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- State Variables ---
     let loadedPostsData = [];
-    let userToken = null;
-    let hasSubmitted = false; // --- NEW: Flag to prevent multiple submissions ---
+    let userToken = null; // Variable to hold the unique user token
+    let hasSubmitted = false; // Flag to prevent multiple submissions
 
     // --- LocalStorage Key ---
     const USER_TOKEN_KEY = 'aitaUserToken';
@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
         userNAH_count: "entry.1154907513",  // Corresponds to "UserNAH" question
         userINFO_count: "entry.1211055051", // Corresponds to "UserINFO" question
         popAlignPercent: "entry.496798247", // Corresponds to "PopularityAlignmentPercent" question
-        // answeredCount: "entry.YOUR_ANSWEREDCOUNT_ID", // Still omitted as per previous step
+        // answeredCount field seems missing from form HTML, so it's omitted here. Add if you have it.
+        // answeredCount: "entry.YOUR_ANSWEREDCOUNT_ID",
         timestamp: "entry.2023000441"         // Corresponds to "Timestamp" question
     };
     // --- END Google Form Configuration ---
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initializeUserToken() {
         try {
             let storedToken = localStorage.getItem(USER_TOKEN_KEY);
-            if (storedToken && storedToken.length > 10) {
+            if (storedToken && storedToken.length > 10) { // Basic check if token seems valid
                 userToken = storedToken;
                 console.log("Retrieved user token from localStorage:", userToken);
             } else {
@@ -50,13 +51,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem(USER_TOKEN_KEY, userToken);
                     console.log("Generated and stored new user token:", userToken);
                 } else {
+                    // Fallback for very old browsers (less unique)
                     userToken = `fallback-${Date.now()}-${Math.random().toString(36).substring(2)}`;
                     console.warn("crypto.randomUUID not supported, using fallback token:", userToken);
+                    // Store the fallback token as well
                      localStorage.setItem(USER_TOKEN_KEY, userToken);
                 }
             }
         } catch (e) {
              console.error("Error accessing localStorage or generating token:", e);
+             // Use a session-only fallback if localStorage fails
              userToken = `error-${Date.now()}-${Math.random().toString(36).substring(2)}`;
              console.log("Using temporary session token due to error:", userToken);
         }
@@ -67,55 +71,89 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Fetch and Display Posts ---
     async function loadPosts() {
         try {
+            // Add cache-busting query parameter to ensure fresh data
             const response = await fetch(`top_aita_posts.json?v=${new Date().getTime()}`);
             console.log("Fetch response status:", response.status);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            let rawPostsData = await response.json();
-            console.log(`Successfully parsed JSON. Found ${rawPostsData?.length ?? 0} raw posts.`);
-            if (!rawPostsData || rawPostsData.length === 0) throw new Error("No post data found.");
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status} - Could not fetch JSON file.`);
+            }
+            let rawPostsData = await response.json(); // Load raw data
 
-            // Pre-calculate percentages and ensure fields
+            if (!rawPostsData || rawPostsData.length === 0) {
+                 postsContainer.innerHTML = '<p>No post data found. Please generate/update the top_aita_posts.json file.</p>';
+                 submitButton.style.display = 'none'; // Hide button if no data
+                 return;
+            }
+
+            // --- Pre-calculate Reddit percentages and ensure necessary fields exist ---
             loadedPostsData = rawPostsData.map((post, index) => {
-                if (!post || typeof post !== 'object') return null;
-                const counts = post.reddit_judgments || {};
-                const total = post.total_judged || 0;
+                if (!post || typeof post !== 'object') {
+                    console.warn(`Skipping invalid raw post data at index ${index}:`, post);
+                    return null; // Mark as invalid to filter out later
+                }
+                const counts = post.reddit_judgments || {}; // Ensure counts is an object
+                const total = post.total_judged || 0; // Use the explicit total_judged from JSON
                 const percentages = {};
                 const categories = ["YTA", "NTA", "ESH", "NAH", "INFO"];
-                categories.forEach(cat => { percentages[cat] = total > 0 ? ((counts[cat] || 0) / total) * 100 : 0; });
-                return { ...post, id: post.id || `missing-id-${index}`, title: post.title || '(Missing Title)', url: post.url || '#', body_summary: post.body_summary || '', reddit_percentages: percentages, reddit_verdict: post.reddit_verdict || "Mixed", total_judged: total, reddit_judgments: counts };
-            }).filter(post => post !== null);
+
+                categories.forEach(cat => {
+                    // Access judgments from the nested counts object
+                    percentages[cat] = total > 0 ? ((counts[cat] || 0) / total) * 100 : 0;
+                });
+
+                // Ensure reddit_verdict exists, default to "Mixed" if not provided or null
+                const verdict = post.reddit_verdict || "Mixed";
+
+                return {
+                    ...post, // Keep original data
+                    id: post.id || `missing-id-${index}`, // Provide default ID if missing
+                    title: post.title || '(Missing Title)',
+                    url: post.url || '#', // Default URL if missing
+                    body_summary: post.body_summary || '', // Default empty string
+                    reddit_percentages: percentages, // Add calculated percentages
+                    reddit_verdict: verdict, // Ensure verdict exists
+                    total_judged: total, // Ensure total_judged is carried over
+                    reddit_judgments: counts // Ensure judgments object is carried over
+                };
+            }).filter(post => post !== null); // Remove any posts marked as invalid
+            // --- End Pre-calculation ---
+
 
             console.log(`Processed ${loadedPostsData.length} valid posts.`);
 
             // Display timestamp
-            if (loadedPostsData.length > 0 && loadedPostsData[0]?.fetched_utc) {
-                try { dataTimestampSpan.textContent = new Date(loadedPostsData[0].fetched_utc).toLocaleString(); }
-                catch (e) { dataTimestampSpan.textContent = "Unknown"; }
+            if (loadedPostsData.length > 0 && loadedPostsData[0]?.fetched_utc) { // Optional chaining
+                 try { dataTimestampSpan.textContent = new Date(loadedPostsData[0].fetched_utc).toLocaleString(); }
+                 catch (e) { dataTimestampSpan.textContent = "Unknown"; }
             } else { dataTimestampSpan.textContent = "Unknown"; }
 
             if (loadedPostsData.length > 0) {
                 displayPosts();
-                submitButton.style.display = 'block';
+                submitButton.style.display = 'block'; // Show submit button
                 hasSubmitted = false; // Reset submission flag on new load
-                submitButton.disabled = false; // Re-enable button
-                submitButton.style.opacity = '1'; // Restore opacity
+                submitButton.disabled = false; // Re-enable button if previously disabled
+                submitButton.style.opacity = '1';
+                submitButton.textContent = 'Analyze My Judgments!'; // Reset button text
+                resultsSummaryDiv.style.display = 'none'; // Hide old results
             } else {
-                 postsContainer.innerHTML = '<p>No valid posts found after processing.</p>';
+                 postsContainer.innerHTML = '<p>No valid posts found after processing. Check JSON structure and script logs.</p>';
+                 submitButton.style.display = 'none'; // Hide button if no valid posts
             }
 
         } catch (error) {
             console.error('Error loading or processing post data:', error);
-            postsContainer.innerHTML = `<p>Error loading posts: ${error.message}. Check console and JSON file.</p>`;
+            postsContainer.innerHTML = `<p>Error loading posts: ${error.message}. Check browser console and verify 'top_aita_posts.json' exists and is valid JSON.</p>`;
+            submitButton.style.display = 'none'; // Hide button on error
         }
     }
 
-    // (displayPosts function remains the same)
     function displayPosts() {
-        postsContainer.innerHTML = '';
+        postsContainer.innerHTML = ''; // Clear loading/previous posts
         const judgmentTypes = ["YTA", "NTA", "ESH", "NAH", "INFO"];
         console.log(`Attempting to display ${loadedPostsData.length} posts.`);
 
         loadedPostsData.forEach((post, index) => {
+            // console.log(`Rendering post index ${index}, ID: ${post.id}`);
             try {
                 const postElement = document.createElement('div');
                 postElement.className = 'live-post';
@@ -136,6 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 postElement.innerHTML = titleHtml + bodyHtml + optionsHtml;
                 postsContainer.appendChild(postElement);
 
+                // Add event listeners for label selection styling
                 const radioButtons = postElement.querySelectorAll(`input[name="${groupName}"]`);
                 if (radioButtons.length > 0) {
                     radioButtons.forEach(radio => { radio.addEventListener('change', handleRadioChange); });
@@ -143,13 +182,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } catch (renderError) {
                 console.error(`Error rendering post index ${index}, ID: ${post.id}`, renderError);
-                // Display error message for this post
+                const errorElement = document.createElement('div');
+                errorElement.className = 'live-post';
+                errorElement.style.backgroundColor = '#ffdddd';
+                errorElement.innerHTML = `<h3>Error rendering post: ${escapeHtml(post.title || 'Unknown Title')}</h3><p>Problem: ${renderError.message}</p>`;
+                postsContainer.appendChild(errorElement);
             }
         });
         console.log("Finished displaying posts loop.");
     }
 
-    // (handleRadioChange function remains the same)
     function handleRadioChange(event) {
         const changedRadio = event.target;
         const groupName = changedRadio.name;
@@ -175,17 +217,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formData = new FormData();
         const appendIfExists = (key, value) => {
-             if (ENTRY_IDS[key] && value !== undefined && value !== null) {
-                 formData.append(ENTRY_IDS[key], value);
-             } else if (ENTRY_IDS[key]) {
-                 formData.append(ENTRY_IDS[key], '');
+             // Check if the ENTRY_ID for this key actually exists before trying to use it
+             if (ENTRY_IDS[key]) {
+                 formData.append(ENTRY_IDS[key], (value !== undefined && value !== null) ? value : '');
+             } else {
+                // console.warn(`Entry ID for key '${key}' not found in ENTRY_IDS configuration.`); // Optional warning
              }
         };
 
-        // Append user token first
+        // Append all configured fields
         appendIfExists('userToken', data.userToken);
-
-        // Append other data points
         appendIfExists('postID', data.postID);
         appendIfExists('userJudgment', data.userJudgment);
         appendIfExists('redditVerdict', data.redditVerdict);
@@ -193,7 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
         appendIfExists('popAlignPercent', data.popAlignPercent?.toFixed(1));
         appendIfExists('timestamp', data.timestamp || new Date().toISOString());
 
-        // Append aggregate counts
         const userCounts = data.userCategoryCounts || {};
         appendIfExists('userYTA_count', userCounts.YTA);
         appendIfExists('userNTA_count', userCounts.NTA);
@@ -201,9 +241,9 @@ document.addEventListener('DOMContentLoaded', () => {
         appendIfExists('userNAH_count', userCounts.NAH);
         appendIfExists('userINFO_count', userCounts.INFO);
 
-        // Append answeredCount if field exists
+        // Conditionally append answeredCount only if ENTRY_ID exists
         if (ENTRY_IDS.answeredCount) {
-             appendIfExists('answeredCount', data.totalAnsweredInSession);
+            appendIfExists('answeredCount', data.totalAnsweredInSession);
         }
 
         try {
@@ -212,6 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 mode: "no-cors",
                 body: formData
             });
+            // console.log(`Data submission attempted for post ID: ${data.postID}`);
         } catch (error) {
             console.error(`Error submitting data to Google Form for post ID ${data.postID}:`, error);
         }
@@ -223,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Prevent Multiple Submissions ---
         if (hasSubmitted) {
              console.log("Analysis already submitted for this session.");
-             alert("You have already submitted your analysis for this set of posts.");
+             alert("You have already submitted your analysis for this set of posts. Reload the page to judge again.");
              return;
         }
         // --- End Prevention ---
@@ -261,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Prepare data FOR THIS POST for Google Form batch
                  const postSubmissionData = {
-                     userToken: userToken, // Add the generated/retrieved token
+                     userToken: userToken,
                      postID: post.id,
                      userJudgment: userChoice,
                      redditVerdict: post.reddit_verdict,
@@ -273,10 +314,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Accumulate Reddit totals & calculate mismatches
                 const judgments = post.reddit_judgments || {};
-                for (const cat in redditCategoryTotals) { /* ... accumulate ... */ }
+                for (const cat in redditCategoryTotals) {
+                    if (cat !== 'TotalJudged' && judgments.hasOwnProperty(cat)) {
+                       redditCategoryTotals[cat] += judgments[cat];
+                    }
+               }
                 redditCategoryTotals.TotalJudged += post.total_judged || 0;
-                if (!agreed) { /* ... calculate mismatch type ... */ }
-
+                if (!agreed) {
+                    const redditVerdict = post.reddit_verdict;
+                    const userIsHarsh = ['YTA', 'ESH'].includes(userChoice);
+                    const userIsSoft = ['NTA', 'NAH'].includes(userChoice);
+                    const redditIsHarsh = ['YTA', 'ESH'].includes(redditVerdict);
+                    const redditIsSoft = ['NTA', 'NAH'].includes(redditVerdict);
+                    if (userIsHarsh && redditIsSoft) harshMismatches++;
+                    else if (userIsSoft && redditIsHarsh) softMismatches++;
+                }
             } else {
                 userJudgments[post.id] = null;
             }
@@ -290,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Disable Button & Set Flag BEFORE Sending Data ---
         hasSubmitted = true;
         submitButton.disabled = true;
-        submitButton.style.opacity = '0.6'; // Visually indicate disabled
+        submitButton.style.opacity = '0.6';
         submitButton.textContent = 'Submitting...';
         // --- End Disable ---
 
@@ -305,32 +357,85 @@ document.addEventListener('DOMContentLoaded', () => {
                 await new Promise(resolve => setTimeout(resolve, 50)); // Optional small delay
             }
             console.log("Finished attempting data submission.");
-            submitButton.textContent = 'Analysis Submitted!'; // Update button text on success
+            submitButton.textContent = 'Analysis Submitted!';
         } catch (submissionError) {
             console.error("Error during batch submission:", submissionError);
-            submitButton.textContent = 'Submission Error'; // Indicate error
-             // Optionally re-enable button on error? Or keep disabled?
-             // hasSubmitted = false; // Allow retry?
-             // submitButton.disabled = false;
-             // submitButton.style.opacity = '1';
+            submitButton.textContent = 'Submission Error';
+            // Optionally allow retry on error?
+            // hasSubmitted = false;
+            // submitButton.disabled = false;
+            // submitButton.style.opacity = '1';
         }
         // --- End Send Data ---
 
 
-        // --- Generate Results HTML (Remains the same) ---
+        // --- Generate Results HTML ---
         let resultsHtml = `<p>You judged ${answeredCount} out of ${loadedPostsData.length} available posts.</p>`;
-        // ... (Agreement Score, Popularity, Profile, Disagreement, Tendency sections) ...
+
+        // 1. Agreement Score
         const agreementPercentage = (answeredCount > 0) ? (agreementCount / answeredCount) * 100 : 0;
         resultsHtml += `<h4>Verdict Agreement</h4><p>You agreed with the Reddit majority verdict on <strong>${agreementCount} (${agreementPercentage.toFixed(1)}%)</strong> of the posts you judged.</p>`;
+
+        // 2. Popularity Alignment
         const averagePopularityAlignment = (answeredCount > 0) ? totalPopularityPercent / answeredCount : 0;
-        resultsHtml += `<h4>Popularity Alignment</h4><p>On average, your specific judgment matched the opinion of <strong>${averagePopularityAlignment.toFixed(1)}%</strong> of Reddit commenters...</p>`; // Truncated
+        resultsHtml += `<h4>Popularity Alignment</h4><p>On average, your specific judgment matched the opinion of <strong>${averagePopularityAlignment.toFixed(1)}%</strong> of Reddit commenters on the posts you judged.`;
+        if (averagePopularityAlignment > 60) resultsHtml += ` (You generally align with popular opinions!)`;
+        else if (averagePopularityAlignment < 30) resultsHtml += ` (You often hold minority opinions relative to Reddit!)`;
+        else resultsHtml += ` (Your alignment with popular opinions is moderate.)`;
+        resultsHtml += `</p>`;
+
+        // 3. Judgment Profile Comparison
         resultsHtml += `<h4>Your Judgment Profile</h4>`;
-        if (answeredCount > 0 && redditCategoryTotals.TotalJudged > 0) { /* ... profile list ... */ } else { /* ... cannot calculate ... */ }
+        if (answeredCount > 0 && redditCategoryTotals.TotalJudged > 0) {
+            resultsHtml += `<p>How frequently you used each judgment category compared to the average Reddit distribution for the posts you judged:</p><ul>`;
+            const categories = ["YTA", "NTA", "ESH", "NAH", "INFO"];
+            categories.forEach(cat => {
+                const userPercent = (userCategoryCounts[cat] / answeredCount) * 100;
+                const redditAvgPercent = (redditCategoryTotals[cat] / redditCategoryTotals.TotalJudged) * 100;
+                const diff = userPercent - redditAvgPercent;
+                let comparisonText = Math.abs(diff) < 5 ? "similar to" : (diff > 0 ? `more often than` : `less often than`);
+                resultsHtml += `<li><strong>${cat}:</strong> You (${userPercent.toFixed(1)}%) vs Reddit Avg (${redditAvgPercent.toFixed(1)}%) - You used this judgment <strong>${comparisonText}</strong> Reddit.</li>`;
+            });
+            resultsHtml += `</ul>`;
+        } else {
+             resultsHtml += `<p>Cannot calculate profile comparison (No posts judged or no Reddit judgments found in judged posts).</p>`;
+        }
+
+        // 4. Disagreement Style
         resultsHtml += `<h4>Disagreement Style</h4>`;
         const disagreementCount = answeredCount - agreementCount;
-        if (disagreementCount > 0) { /* ... mismatch list ... */ } else if (answeredCount > 0) { /* ... agreed on all ... */ } else { /* ... no posts judged ... */ }
-        resultsHtml += `<h4>Overall Judgmental Tendency...</h4>`;
-        if (answeredCount > 0 && (userCategoryCounts['NTA'] > 0 || userCategoryCounts['YTA'] > 0)) { /* ... ratio comparison ... */ } else { /* ... cannot calculate ... */ }
+        if (disagreementCount > 0) {
+            const otherMismatches = disagreementCount - harshMismatches - softMismatches;
+            const harshMismatchRate = (harshMismatches / disagreementCount) * 100;
+            const softMismatchRate = (softMismatches / disagreementCount) * 100;
+            const otherMismatchRate = (otherMismatches / disagreementCount) * 100;
+             resultsHtml += `<p>When you disagreed with the Reddit majority verdict (${disagreementCount} times):</p><ul>`;
+             resultsHtml += `<li>You judged harsher (e.g., YTA/ESH when Reddit judged NTA/NAH) ${harshMismatches} times (${harshMismatchRate.toFixed(1)}%).</li>`;
+             resultsHtml += `<li>You judged softer (e.g., NTA/NAH when Reddit judged YTA/ESH) ${softMismatches} times (${softMismatchRate.toFixed(1)}%).</li>`;
+             resultsHtml += `<li>Other disagreements (e.g., involving INFO, Mixed, YTA vs ESH) occurred ${otherMismatches} times (${otherMismatchRate.toFixed(1)}%).</li>`;
+             resultsHtml += `</ul>`;
+        } else if (answeredCount > 0) {
+             resultsHtml += `<p>You agreed with the Reddit majority verdict on all posts you judged!</p>`;
+        } else {
+             resultsHtml += `<p>No posts were judged.</p>`;
+        }
+
+        // 5. Overall Judgmental Tendency
+        resultsHtml += `<h4>Overall Judgmental Tendency (vs. Reddit Majority Verdicts)</h4>`;
+        let userYtaCount = userCategoryCounts['YTA'];
+        let userNtaCount = userCategoryCounts['NTA'];
+        const relevantRedditNtaCount = loadedPostsData.filter(p => userJudgments[p.id] !== null && p.reddit_verdict === 'NTA').length;
+        const relevantRedditYtaCount = loadedPostsData.filter(p => userJudgments[p.id] !== null && p.reddit_verdict === 'YTA').length;
+        const userRatio = (userNtaCount === 0) ? (userYtaCount > 0 ? Infinity : 0) : userYtaCount / userNtaCount;
+        const redditMajorityRatio = (relevantRedditNtaCount === 0) ? (relevantRedditYtaCount > 0 ? Infinity : 0) : relevantRedditYtaCount / relevantRedditNtaCount;
+
+        if (answeredCount > 0 && (userNtaCount > 0 || userYtaCount > 0)) {
+            const relativeTendency = getRelativeJudgment(userRatio, redditMajorityRatio);
+            resultsHtml += `<p>Based on your YTA/NTA ratio (${userRatio === Infinity ? '∞' : userRatio.toFixed(2)}) compared to the ratio derived from Reddit's majority verdicts for the posts you judged (${redditMajorityRatio === Infinity ? '∞' : redditMajorityRatio.toFixed(2)}), you appear <strong>${relativeTendency}</strong> judgmental.</p>`;
+            resultsHtml += `<p><em>Note: This compares your YTA/NTA votes only to the *majority* outcome on Reddit for these specific posts.</em></p>`;
+        } else {
+            resultsHtml += `<p>Not enough YTA/NTA judgments provided by you or found in Reddit majority verdicts for a meaningful ratio comparison.</p>`;
+        }
         // --- End Generate Results HTML ---
 
 
@@ -347,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
              console.warn("escapeHtml received non-string input:", unsafe);
              return '(Content missing or invalid)';
         }
-        return unsafe.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">").replace(/"/g, "'").replace(/'/g, "'");
+        return unsafe.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">").replace(/"/g, "\"").replace(/'/g, "'");
      }
 
      function getRelativeJudgment(userRatio, groupRatio, tolerance = 0.20) {
